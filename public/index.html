@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->    
+    <link rel="stylesheet" href="../css/electron-tabs.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  </head>
+  <body>
+    <div class="etabs-tabgroup">
+      <div class="etabs-tabs"></div>
+      <div class="etabs-buttons"></div>
+    </div>
+    <div class="etabs-views"></div>
+    <h1>Weather Channel: Spain Beachs</h1>
+    <nav>
+      <ul>
+        <li><button onclick="predicNacHoy()">Preddicción Nacional</button></li>
+        <li><button onclick="predicCaaHoy()">Preddicción Atonómica</button></li>
+      </ul>
+    </nav>
+    <section>
+      <textarea id="peticiones" cols="60" rows="20" readonly="true"></textarea>
+    </section>
+  </body>
+  <script src="../src/tabs.js"></script>
+  <script src="../src/request.js"></script>
+</html>

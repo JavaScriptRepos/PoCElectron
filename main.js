@@ -1,16 +1,17 @@
-const { app, BrowserWindow, Menu, dialog } = require('electron')
-
+const { app, BrowserWindow, ipcMain } = require('electron')
+const {download} = require("electron-dl");
 
 function createWindow () {
   // Create the browser window.
   let win = new BrowserWindow({
-    width: 550,
-    height: 500,
+    width: 800,
+    height: 560,
     backgroundColor: "#cc9900",
-    resizable: true,
-    alwaysOnTop: true,
+    resizable: false,
+    alwaysOnTop: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      webviewTag: true
     }  
   })
 
@@ -18,46 +19,13 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.setPosition(100,100);
-  win.webContents.openDevTools();
-  win.loadFile('index.html')
+  //win.webContents.openDevTools();
+  win.loadFile('public/index.html')
 }
 
 app.whenReady().then(createWindow)
-
-/* EJEMPLO DE MENU
-  template = [
-  {
-    label: 'Edit',
-    click: async() => {
-      const options = {
-        type: 'error',
-        buttons: ['Ok'],
-        defaultId: 2,
-        title: 'Error!!',
-        message: 'Do you want to do this?',
-        detail: 'It does not really matter',
-        checkboxLabel: 'Remember my answer',
-        checkboxChecked: true,
-      };
-      
-      dialog.showMessageBox(null, options, (response, checkboxChecked) => {
-        console.log(response);
-        console.log(checkboxChecked);
-      });
-      
-    }
-  },
-  {
-    label: 'Copy',
-    click: 
-      dev.openDevTools
-    
-  },
-  {
-    label: 'Send'
-  }
-]
-
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
- */
+ipcMain.on("download", (event, info) => {
+  debugger;
+  download(BrowserWindow.getFocusedWindow(), info.url, info.properties)
+      .then(dl => window.webContents.send("download complete", dl.getSavePath()));
+});
